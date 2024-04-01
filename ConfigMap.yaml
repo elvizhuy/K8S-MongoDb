@@ -11,6 +11,8 @@ data:
     const targetDbStr = 'test';
     const rootUser = cat('/etc/k8s-mongo/admin/MONGO_ROOT_USERNAME');
     const rootPass = cat('/etc/k8s-mongo/admin/MONGO_ROOT_PASSWORD');
+    const adminUser = cat('/etc/k8s-mongo/admin/MONGO_USERNAME');
+    const adminPass = cat('/etc/k8s-mongo/admin/MONGO_PASSWORD');
     const usersStr = cat('/etc/k8s-mongo/MONGO_USERS_LIST');
     const adminDb = db.getSiblingDB('admin');
     adminDb.auth(rootUser, rootPass);
@@ -51,12 +53,10 @@ data:
         }
       });
     const targetDbString = 'k8s';
-    const mongoUsername = 'mongo_username';
-    const mongoPassword = 'mongo_password';
     const database = db.getSiblingDB(targetDbString);
 
     database.createUser({
-      user: mongoUsername,
-      pwd: mongoPassword,
+      user: adminUser,
+      pwd: adminPass,
       roles: [{ role: 'dbOwner', db: targetDbString }]
     });
